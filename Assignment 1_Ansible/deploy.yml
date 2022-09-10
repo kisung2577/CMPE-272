@@ -1,0 +1,23 @@
+---
+- name: deploy webservers
+  hosts: webservers
+  become: yes
+
+  tasks:
+  - name: Install nginx
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+
+  - name: Template a file to /etc/file.conf
+    ansible.builtin.template:
+      src: ~/conf.j2
+      dest: /etc/nginx/sites-enabled/home.conf
+      owner: www-data
+      group: www-data
+      mode: '0644'
+
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted

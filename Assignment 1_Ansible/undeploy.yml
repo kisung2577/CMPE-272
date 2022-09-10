@@ -1,0 +1,10 @@
+---
+- name: undeploy webservers
+  hosts: webservers
+  become: yes
+
+  tasks:
+  - name: Stop service nginx, if started
+    ansible.builtin.service:
+      name: nginx
+      state: stopped
